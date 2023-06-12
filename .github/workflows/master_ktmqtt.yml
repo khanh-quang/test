@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'KTmqtt'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A8EC3BFE50CF4F9A9D827F49A072646E }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0A50997D860743D3A7114C80FA35884C }}
           package: .
