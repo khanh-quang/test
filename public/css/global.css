@@ -8,12 +8,14 @@ body {
   --font-inder: Inder;
 
   /* font sizes */
+  --font-size-6xl: 25px;
   --font-size-xl: 20px;
   --font-size-13xl: 32px;
   --font-size-lg: 18px;
 
   /* Colors */
   --color-white: #fff;
+  --color-gray-100: #191616;
   --color-deepskyblue: #66acec;
   --color-black: #000;
   --color-limegreen: #4ec743;

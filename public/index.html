@@ -1,229 +1,66 @@
-</html>
-<!DOCTYPE html>
+
 <html>
-  <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/chart-device-data.js" type="text/javascript" charset="utf-8"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <link rel="stylesheet" href="css/global.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inder:wght@400&display=swap"/>
-  </head>
-  <body>
-    <div class="led"></div>
-  <button onclick="toggleLed()">Bật/Tắt LED</button>
-  <script>
-    function toggleLed() {
-      var led = document.querySelector('.macbook-air-1-child1');
-      led.classList.toggle('led-on');
-    }
-  </script>   
-    <div class="macbook-air-1">
-      <img class="image-4-icon" alt="" src="css/image-4@2x.png" />
+<head>
+	<title>Login </title>
+	<style>
+		form {
+			max-width: 300px;
+			margin: 50px auto;
+			padding: 20px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			box-shadow: 0 0 5px #ccc;
+			text-align: center;
+		}
+		input[type="text"], input[type="password"] {
+			display: block;
+			width: 100%;
+			padding: 10px;
+			margin-bottom: 20px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			box-sizing: border-box;
+			font-size: 16px;
+		}
+		input[type="submit"] {
+			background-color: #4CAF50;
+			color: #fff;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body>
+	<form id="login-form">
+		<h1>Login</h1>
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username" required>
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" required>
+		<input type="submit" value="Login">
+		<p id="error-message"></p>
+	</form>
 
-      <div class="macbook-air-1-child"></div>
-      <div class="macbook-air-1-item"></div>
-      <div class="macbook-air-1-inner"></div>
-      <img class="ellipse-icon" alt="" src="css/ellipse-11.svg" />
+	<script>
+		const form = document.querySelector("#login-form");
+		const errorMessage = document.querySelector("#error-message");
 
-      <div class="ellipse-div"></div>
-      <div class="macbook-air-1-child1"></div>
-      <div class="macbook-air-1-child2"></div>
-      <div class="macbook-air-1-child3"></div>
-      <img class="macbook-air-1-child4" alt="" src="css/ellipse-10.svg" />
+		form.addEventListener("submit", (event) => {
+			event.preventDefault();
 
-      <img class="image-3-icon" alt="" src="css/image-3@2x.png" />
+			const username = form.username.value;
+			const password = form.password.value;
 
-      <img class="line-icon" alt="" src="css/line-37.svg" style="display: none;" />
-
-      <img class="macbook-air-1-child5" alt="" src="css/line-38.svg" />
-
-      <img class="macbook-air-1-child6" alt="" src="css/line-37.svg"style="display: none;" />
-
-      <img class="macbook-air-1-child7" alt="" src="css/line-38.svg" />
-
-      <img class="macbook-air-1-child8" alt="" src="css/line-45.svg"style="display: none;" />
-
-      <img class="macbook-air-1-child9" alt="" src="css/line-38.svg" />
-      <div class="line22"></div>
-      <div class="line-div"style="display: none;"></div>
-      <img class="macbook-air-1-child10" alt="" src="css/line-40.svg" />
-
-      <div class="macbook-air-1-child11"style="display: none;"></div>
-      <img class="macbook-air-1-child12" alt="" src="css/line-40.svg" />
-
-      <div class="macbook-air-1-child13"style="display: none;"></div>
-      <img class="macbook-air-1-child14" alt="" src="css/line-40.svg" />
-
-      <img class="image-2-icon" alt="" src="css/image-2@2x.png" />
-
-      <div class="local-wrapper">
-        <div class="local">LOCAL</div>
-      </div>
-      <div class="macbook-air-1-child15"></div>
-      <div class="macbook-air-1-child16"></div>
-      <div class="macbook-air-1-child17"></div>
-      <div class="macbook-air-1-child18"></div>
-      <div class="remote-wrapper">
-        <div class="local">REMOTE</div>
-      </div>
-      <button id="472-mdcl">
-        <div class="local m-dcl-wrapper">MỞ DCL</div>
-      </button>
-      <button id="472-ddcl">
-        <div class="local ng-dcl-wrapper">ĐÓNG DCL</div>
-      </button>
-      <script>
-        $(document).ready(function(){
-          $("#472-mdcl").click(function(){
-            $(".macbook-air-1-child8").hide();
-            $(".macbook-air-1-child9").show();
-          });
-          $("#472-ddcl").click(function(){
-            $(".macbook-air-1-child8").show();
-            $(".macbook-air-1-child9").hide();
-          });
-        });
-        </script>
-      <button id="473-mdcl">
-        <div class="local m-dcl-container">MỞ DCL</div>
-      </button>
-      <button id="473-ddcl">
-        <div class="local ng-dcl-container">ĐÓNG DCL</div>
-      </button>
-      <script>
-        $(document).ready(function(){
-          $("#473-mdcl").click(function(){
-            $(".macbook-air-1-child6").hide();
-            $(".macbook-air-1-child7").show();
-          });
-          $("#473-ddcl").click(function(){
-            $(".macbook-air-1-child6").show();
-            $(".macbook-air-1-child7").hide();
-          });
-        });
-        </script>
-      <button id="472-mdtd">
-        <div class="local m-dtd-wrapper">MỞ DTD</div>
-      </button>
-      <button id="472-ddtd">
-        <div class="local ng-dtd-wrapper">ĐÓNG DTD</div>
-      </button>
-      <script>
-        $(document).ready(function(){
-          $("#472-mdtd").click(function(){
-            $(".macbook-air-1-child11").hide();
-            $(".macbook-air-1-child12").show();
-          });
-          $("#472-ddtd").click(function(){
-            $(".macbook-air-1-child11").show();
-            $(".macbook-air-1-child12").hide();
-          });
-        });
-        </script>
-      <button id="473-mdtd">
-        <div class="local m-dtd-container">MỞ DTD</div>
-      </button>
-      <button id="473-ddtd">
-        <div class="local ng-dtd-container">ĐÓNG DTD</div>
-      </button>
-      <script>
-        $(document).ready(function(){
-          $("#473-mdtd").click(function(){
-            $(".macbook-air-1-child13").hide();
-            $(".macbook-air-1-child14").show();
-          });
-          $("#473-ddtd").click(function(){
-            $(".macbook-air-1-child13").show();
-            $(".macbook-air-1-child14").hide();
-          });
-        });
-        </script>
-      <button id="471-mdtd">
-        <div class="local m-dtd-frame">MỞ DTD</div>
-      </button>
-      <button id="471-ddtd">
-        <div class="local ng-dtd-frame">ĐÓNG DTD</div>
-      </button>
-      <script>
-        $(document).ready(function(){
-          $("#471-mdtd").click(function(){
-            $(".line-div").hide();
-            $(".macbook-air-1-child10").show();
-          });
-          $("#471-ddtd").click(function(){
-            $(".line-div").show();
-            $(".macbook-air-1-child10").hide();
-          });
-        });
-        </script>
-      <button id="471-mdcl">
-        <div class="local m-dcl-frame">MỞ DCL</div>
-      </button>
-      <button id="471-ddcl">
-        <div class="local ng-dcl-frame">ĐÓNG DCL</div>
-      </button>
-      <script>
-        $(document).ready(function(){
-          $("#471-mdcl").click(function(){
-            $(".line-icon").hide();
-            $(".macbook-air-1-child5").show();
-          });
-          $("#471-ddcl").click(function(){
-            $(".line-icon").show();
-            $(".macbook-air-1-child5").hide();
-          });
-        });
-        </script>
-      <div class="macbook-air-1-child19"></div>
-      <div class="macbook-air-1-child20"></div>
-    </div>
-    <div class="data-i1">
-     <ul>
-      <li>
-        <label for="listOfDevices">Select a device:</label>
-        <select id="listOfDevices"></select>
-        <span id="deviceCount"></span>
-      </li>
-      <li>
-        <label for="temperature">Ia:</label>
-        <span id="temperature">N/A</span>
-      </li>
-      <li>
-        <label for="humidity">Ib:</label>
-        <span id="humidity">N/A</span>
-      </li>
-      <li>
-        <label for="time">Ib:</label>
-        <span id="time">N/A</span>
-      </li>
-     </ul>
-    </div>
-    <div class="data-i2">
-      <ul>
-        <li><span>Ia:</span> <span id="i2a-value"></span></li>
-        <li><span>Ib:</span> <span id="i2b-value"></span></li>
-        <li><span>Ic:</span> <span id="i2c-value"></span></li>
-        <li><span>In:</span> <span id="i2n-value"></span></li>
-      </ul>
-    </div>
-    <div class="data-i3">
-      <ul>
-        <li><span>Ia:</span> <span id="i3a-value"></span></li>
-        <li><span>Ib:</span> <span id="i3b-value"></span></li>
-        <li><span>Ic:</span> <span id="i3c-value"></span></li>
-        <li><span>In:</span> <span id="i3n-value"></span></li>
-      </ul>
-    </div>
-    <div class="data-i4">
-      <ul>
-        <li><span>Ia:</span> <span id="i4a-value"></span></li>
-        <li><span>Ib:</span> <span id="i4b-value"></span></li>
-        <li><span>Ic:</span> <span id="i4c-value"></span></li>
-        <li><span>In:</span> <span id="i4n-value"></span></li>
-      </ul>
-    </div>
-  </body>
+			if (username === "admin" && password === "admin") {
+				// Redirect to dashboard page
+				window.location.href = "/index123.html";
+			} else {
+				errorMessage.textContent = "Invalid username or password.";
+			}
+		});
+	</script>
+</body>
 </html>
