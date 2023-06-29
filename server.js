@@ -2,7 +2,6 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 const path = require('path');
-
 const mqtt = require('mqtt');
 const fs = require('fs');
 const { promisify } = require('util');
@@ -38,22 +37,23 @@ wss.broadcast = (data) => {
 server.listen(process.env.PORT || '3000', () => {
   console.log('Listening on %d.', server.address().port);
 });
+
 const client = mqtt.connect(connectUrl, {
   clientId,
   clean: true,
   connectTimeout: 4000,
-  username: 'minhanh16',
-  password: 'minhanh16',
+ // username: 'minhanh16',
+ // password: 'minhanh16',
   reconnectPeriod: 1000,
 });
 
 const registerValues = {};
 
-const topics = ['Ua', 'Hz', 'kWh', 'Ia', 'P', 'Cosfi'];
+const topic = ['ew50'];
 
-client.subscribe(topics, () => {
-  console.log(`Subscribed to topics: ${topics.join(', ')}`);
-  client.publish(topics[0], '', { qos: 2, retain: false }, (error) => {
+client.subscribe(topic, () => {
+  console.log(`Subscribed to topic: ${topic.join(', ')}`);
+  client.publish(topic[0], '', { qos: 0, retain: false }, (error) => {
     if (error) {
       console.error(error);
     }
@@ -66,118 +66,93 @@ client.on('message', async (topic, payload) => {
   let data = t.replace(/\\u0000/g, '');
   const temp = Object.values(JSON.parse(JSON.parse(data)))[0][0];
   let result = temp;
-  
-  if(topic === 'Ua') {
-    const UaregisterValue = temp['Register Values'] || null;
-    if(UaregisterValue) {
-      let newStr = UaregisterValue.slice(-4) + UaregisterValue.slice(4, -4) + UaregisterValue.slice(0, 4);
-      const actualUaRegisterValue = convertRegisterValue(`0x${newStr}`);
-      console.log('actual Ua value', actualUaRegisterValue);
-      result = {...result, 'Register Values': actualUaRegisterValue};
-
-      registerValues[topic] = actualUaRegisterValue;
-      await writeFileAsync('registerValues.json', JSON.stringify(registerValues, null, 2));
-
-      const newTopic = `${topic}${actualUaRegisterValue}`;
-      console.log('New topic:', newTopic);
-      // Send the actualUaRegisterValue to all connected clients via the WebSocket server with the new topic
-      wss.broadcast(JSON.stringify({topic, value: actualUaRegisterValue}));
-    }
-  }
-
-  if(topic === 'Hz') {
-    const HzregisterValue = temp['Register Values'] || null;
-    if(HzregisterValue) {
-      let newStr = HzregisterValue.slice(-4) + HzregisterValue.slice(4, -4) + HzregisterValue.slice(0, 4);
-      const actualHzRegisterValue = convertRegisterValue(`0x${newStr}`);
-      console.log('actual Hz value', actualHzRegisterValue);
-      result = {...result, 'Register Values': actualHzRegisterValue};
-
-      registerValues[topic] = actualHzRegisterValue;
-      await writeFileAsync('registerValues.json', JSON.stringify(registerValues, null, 2));
-      const newTopic = `${topic}${actualHzRegisterValue}`;
-      console.log('New topic:', newTopic);
-      // Send the actualHzRegisterValue to all connected clients via the WebSocket server with the new topic
-      wss.broadcast(JSON.stringify({topic, value: actualHzRegisterValue}));
-    }
-  }
-
-  if(topic === 'Ia') {
-    const IaregisterValue = temp['Register Values'] || null;
-    if(IaregisterValue) {
-      let newStr = IaregisterValue.slice(-4) + IaregisterValue.slice(4, -4) + IaregisterValue.slice(0, 4);
-      const actualIaRegisterValue = convertRegisterValue(`0x${newStr}`);
-      console.log('actual Ia value', actualIaRegisterValue);
-      result = {...result, 'Register Values': actualIaRegisterValue};
-
-      registerValues[topic] = actualIaRegisterValue;
-      await writeFileAsync('registerValues.json', JSON.stringify(registerValues, null, 2));
-
-      const newTopic = `${topic}${actualIaRegisterValue}`;
-      console.log('New topic:', newTopic);
-      // Send the actualIaRegisterValue to all connected clients via the WebSocket server with the new topic
-      wss.broadcast(JSON.stringify({topic, value: actualIaRegisterValue}));
-    }
-  }
-
-  if(topic === 'kWh') {
-    const kWhregisterValue = temp['Register Values'] || null;
-    if(kWhregisterValue) {
-      let newStr = kWhregisterValue.slice(-4) + kWhregisterValue.slice(4, -4) + kWhregisterValue.slice(0, 4);
-      const actualkWhRegisterValue = convertRegisterValue(`0x${newStr}`);
-      console.log('actual kWh value', actualkWhRegisterValue);
-      result = {...result, 'Register Values': actualkWhRegisterValue};
-
-      registerValues[topic] = actualkWhRegisterValue;
-      await writeFileAsync('registerValues.json', JSON.stringify(registerValues, null, 2));
-
-      const newTopic = `${topic}${actualkWhRegisterValue}`;
-      console.log('New topic:', newTopic);
-      // Send the actualkWhRegisterValue to all connected clients via the WebSocket server with the new topic
-      wss.broadcast(JSON.stringify({topic, value: actualkWhRegisterValue}));
-    }
-  }
-
-  if(topic === 'P') {
-    const PregisterValue = temp['Register Values'] || null;
-    if(PregisterValue) {
-      let newStr = PregisterValue.slice(-4) + PregisterValue.slice(4, -4) + PregisterValue.slice(0, 4);
-      const actualPRegisterValue = convertRegisterValue(`0x${newStr}`);
-      console.log('actual P value', actualPRegisterValue);
-      result = {...result, 'Register Values': actualPRegisterValue};
-
-      registerValues[topic] = actualPRegisterValue;
-      await writeFileAsync('registerValues.json', JSON.stringify(registerValues, null, 2));
-
-      const newTopic = `${topic}${actualPRegisterValue}`;
-      console.log('New topic:', newTopic);
-      // Send the actualPRegisterValue to all connected clients via the WebSocket server with the new topic
-      wss.broadcast(JSON.stringify({topic, value: actualPRegisterValue}));
-    }
-  }
-
-  if(topic === 'Cosfi') {
-    const CosfiregisterValue = temp['Register Values'] || null;
-    if(CosfiregisterValue) {
-      let newStr = CosfiregisterValue.slice(-4) + CosfiregisterValue.slice(4, -4) + CosfiregisterValue.slice(0, 4);
-      const actualCosfiRegisterValue = convertRegisterValue(`0x${newStr}`);
-      console.log('actual Cosfi value', actualCosfiRegisterValue);
-      result = {...result, 'Register Values': actualCosfiRegisterValue};
-
-      registerValues[topic] = actualCosfiRegisterValue;
-      await writeFileAsync('registerValues.json', JSON.stringify(registerValues, null, 2));
-
-      const newTopic = `${topic}${actualCosfiRegisterValue}`;
-      console.log('New topic:', newTopic);
-      // Send the actualCosfiRegisterValue to all connected clients via the WebSocket server with the new topic
-      wss.broadcast(JSON.stringify({topic, value: actualCosfiRegisterValue}));
-    }
-  }
-
-  // Write the result to a file in JSON format
-  await writeFileAsync('data.json', JSON.stringify(result, null, 2));
+  const RegisterValue = temp['Register Values'] || null;
+  // console.log('Register Values', RegisterValue);
+  // Ua
+  const Ua = RegisterValue.substr(0, 8);
+  // console.log('Ua hex values:', Ua);
+  let newStrUa = Ua.slice(-4) + Ua.slice(4, -4) + Ua.slice(0, 4);
+      const actualUa = convertRegisterValue(`0x${newStrUa}`);
+      // console.log('Ua', actualUa);
+      result = {...result, 'Register Values': actualUa};
+      wss.broadcast(JSON.stringify({Uavalue: actualUa}));
+  // Ub
+  const Ub = RegisterValue.slice(9, 17);
+  // console.log('Ub hex values:', Ub);
+  let newStrUb = Ub.slice(-4) + Ub.slice(4, -4) + Ub.slice(0, 4);
+  const actualUb = convertRegisterValue(`0x${newStrUb}`);
+  // console.log('Ub', actualUb);
+  result = {...result, 'Register Values': actualUb};
+  wss.broadcast(JSON.stringify({Ubvalue: actualUb}));
+  // Uc
+  const Uc = RegisterValue.slice(17, 25);
+  // console.log('Uc hex values:', Uc);
+  let newStrUc = Uc.slice(-4) + Uc.slice(4, -4) + Uc.slice(0, 4);
+      const actualUc = convertRegisterValue(`0x${newStrUc}`);
+      // console.log('Uc', actualUc);
+      result = {...result, 'Register Values': actualUc};
+wss.broadcast(JSON.stringify({Ucvalue: actualUc}));
+  // Ia
+  const Ia = RegisterValue.slice(65, 73);
+  // console.log('Ia hex values:', Ia);
+  let newStrIa = Ia.slice(-4) + Ia.slice(4, -4) + Ia.slice(0, 4);
+  const actualIa = convertRegisterValue(`0x${newStrIa}`);
+  // console.log('Ia', actualIa);
+  result = {...result, 'Register Values': actualIa};
+  wss.broadcast(JSON.stringify({Iavalue: actualIa}));
+  // Ib
+  const Ib = RegisterValue.slice(73, 81);
+  // console.log('Ib hex values:', Ib);
+  let newStrIb = Ib.slice(-4) + Ib.slice(4, -4) + Ib.slice(0, 4);
+  const actualIb = convertRegisterValue(`0x${newStrIb}`);
+  // console.log('Ib', actualIb);
+  result = {...result, 'Register Values': actualIb};
+  wss.broadcast(JSON.stringify({Ibvalue: actualIb}));
+  // Ic
+  const Ic = RegisterValue.slice(81, 89);
+  // console.log('Ic hex values:', Ic);
+  let newStrIc = Ic.slice(-4) + Ic.slice(4, -4) + Ic.slice(0, 4);
+  const actualIc = convertRegisterValue(`0x${newStrIc}`);
+  // console.log('Ic', actualIc);
+  result = {...result, 'Register Values': actualIc};
+  wss.broadcast(JSON.stringify({Icvalue: actualIc}));
+  // P
+  const P = RegisterValue.slice(169, 177);
+  // console.log('P hex values:', P);
+  let newStrP = P.slice(-4) + P.slice(4, -4) + P.slice(0, 4);
+  const actualP = convertRegisterValue(`0x${newStrP}`);
+  // console.log('P', actualP);
+  result = {...result, 'Register Values': actualP};
+  wss.broadcast(JSON.stringify({Pvalue: actualP}));
+   // Hz
+  const startIndex = RegisterValue.length - 8 - 8;
+  const endIndex = RegisterValue.length - 8;
+  const Hz = RegisterValue.substring(startIndex, endIndex);
+  //  console.log('Hz hex values:', Hz);
+   let newStrHz = Hz.slice(-4) + Hz.slice(4, -4) + Hz.slice(0, 4);
+   const actualHz = convertRegisterValue(`0x${newStrHz}`);
+  //  console.log('Hz', actualHz);
+   result = {...result, 'Register Values': actualHz};
+   wss.broadcast(JSON.stringify({Hzvalue: actualHz}));
+  //  A
+  const A = RegisterValue.substring(RegisterValue.length - 8);
+  //  console.log('A hex values:', A);
+   let newStrA = A.slice(-4) + A.slice(4, -4) + A.slice(0, 4);
+   const actualA = convertRegisterValue(`0x${newStrA}`);
+  //  console.log('A', actualA);
+   result = {...result, 'Register Values': actualA};
+   wss.broadcast(JSON.stringify({Avalue: actualA}));
+   // Cosfi
+   const startIndex2 = RegisterValue.length - 16 - 8;
+   const endIndex2 = RegisterValue.length - 16;
+   const Cosfi = RegisterValue.substring(startIndex2, endIndex2);
+  //  console.log('Cosfi hex values:', Cosfi);
+   let newStrCosfi = Cosfi.slice(-4) + Cosfi.slice(4, -4) + Cosfi.slice(0, 4);
+   const actualCosfi = convertRegisterValue(`0x${newStrCosfi}`);
+  //  console.log('Cosfi', actualCosfi);
+   result = {...result, 'Register Values': actualCosfi};
+   wss.broadcast(JSON.stringify({Cosfivalue: actualCosfi}));
 });
-
 const convertRegisterValue = (str) => {
   var float = 0, sign, order, mantiss,exp,
   int = 0, multi = 1;
@@ -201,6 +176,6 @@ float += parseInt(mantissa[i])? Math.pow(2,exp):0;
 exp--;
 }
 float = float*sign;
-console.log(float);
+// console.log(float);
 return float;
 }
