@@ -1,23 +1,39 @@
-
-const deviceId = "ew50";
-const iotHubName = "datnmqtt";
-const password = `SharedAccessSignature sr=$datnmqtt.azure-devices.net&sig=<COMBINATION_OF_PASSWORDS_URL_ENCODED>&se=<EPOCH_EXPIRY>&skn=<ACCESS_POLICY_NAME>`;
-
-// Connect to Azure IoT Hub using MQTT
-const url = `$datnmqtt.azure-devices.net/$ew50/api-version=2016-11-14`;
-const iotHubTopic = `devices/$ew50/messages/events/`;
-
-const protocol = document.location.protocol.startsWith('https') ? 'wss://' : 'ws://';
-const webSocket = new WebSocket(protocol + location.host);
-//Read data from Iot devices in AzureIothub
-//Change $('#Ua-value') by value we need
-//Change text(**) by data we need
-
 $(document).ready(async () => {
-
-  webSocket.onmessage = function onMessage(message) {
-    const { topic, value } = JSON.parse(message.data);
-    console.log('data', JSON.parse(message.data));
-    $(`#${topic}-value`).text(value.toFixed(2));
-  };
-});
+    const protocol = document.location.protocol.startsWith('https') ? 'wss://' : 'ws://';
+    const webSocket = new WebSocket(protocol + location.host);
+    webSocket.onmessage = function onMessage(message) {
+    const data = JSON.parse(message.data);
+    console.log('data', data);
+    const Uavalue = data?.Uavalue;
+  
+    console.log('Uavalue', Uavalue);
+    $(`#Ua-value`).text(Uavalue?.toFixed(2));
+    const Hzvalue = data?.Hzvalue;
+    console.log('Hzvalue', Hzvalue);
+    $(`#Hz-value`).text(Hzvalue?.toFixed(2));
+    const Ubvalue = data?.Ubvalue;
+    console.log('Ubvalue', Ubvalue);
+    $(`#Ub-value`).text(Ubvalue?.toFixed(2));
+    const Ucvalue = data?.Ucvalue;
+    console.log('Ucvalue', Ucvalue);
+    $(`#Uc-value`).text(Ucvalue?.toFixed(2));
+    const Iavalue = data?.Iavalue;
+    console.log('Iavalue', Iavalue);
+    $(`#Ia-value`).text(Iavalue?.toFixed(2));
+    const Ibvalue = data?.Ibvalue;
+    console.log('Ibvalue', Ibvalue);
+    $(`#Ib-value`).text(Ibvalue?.toFixed(2));
+    const Icvalue = data?.Icvalue;
+    console.log('Icvalue', Icvalue);
+    $(`#Ic-value`).text(Icvalue?.toFixed(2));
+    const Pvalue = data?.Pvalue;
+    console.log('Pvalue', Pvalue);
+    $(`#P-value`).text(Pvalue?.toFixed(2));
+    const Avalue = data?.Avalue;
+    console.log('Avalue', Avalue);
+    $(`#A-value`).text(Avalue);
+    const Cosfivalue = data?.Cosfivalue;
+    console.log('Cosfivalue', Cosfivalue);
+    $(`#Cosfi-value`).text(Cosfivalue?.toFixed(2));
+    };
+  });
